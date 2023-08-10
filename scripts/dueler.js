@@ -11,10 +11,10 @@ export class Dueler {
         this.attacks = new Attacks();
         this.attacking_time_current = 0;
         this.attacking_time_end = 100;
-        this.attacking_allowed = true;
+        this.attacking_allowed = false;
         this.flipped = flipped;
         this.animated_image = new ImageAnimated(
-            "monkey_body",
+            "monkey_attack",
             this.position,
             this.width,
             this.height,
@@ -25,33 +25,38 @@ export class Dueler {
     prepare_to_shoot() {
         if (this.attacking_allowed) return;
         if (this.attacking_time_current >= this.attacking_time_end) {
+            
             this.attacking_allowed = true;
             this.attacking_time_current = 0;
-        } else this.attacking_time_current++;
+        } else {
+           
+
+            this.attacking_time_current++;
+        }
     }
 
     draw(context) {
         this.attacks.draw(context);
-
-       /*  context.fillStyle = this.color;
-        context.fillRect(this.position.x,this.position.y,this.width,this.height); */
         this.animated_image.draw(context);
     }
 
     shoot() {
         if (!this.attacking_allowed) return;
+
         this.attacks.add(
             {
-                x : this.position.x + (this.width * 0.4 / 2),
-                y : this.position.y + (this.height * 0.4 / 2)
+                x : this.position.x + (this.attack_velocity < 0 ?  -this.width * 0.2 : this.width * 0.2),
+                y : this.position.y +  this.height * 0.4 ,
             },
             this.width * 0.4,
             this.height * 0.4,
             this.attack_velocity,
             this.flipped
         )
+
         
         this.attacking_allowed = false;
+
     }
 
     update(canvas) {

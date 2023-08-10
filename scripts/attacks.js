@@ -1,5 +1,5 @@
 import { get_type_winner , is_collide_to , new_loop } from "./utility.js";
-import { ImageAnimated } from "./assets-handler.js";
+import { ImageAnimated ,get_random_sound_sources } from "./assets-handler.js";
 
 class Attack {
     constructor(type,position,width,height,velocity,flipped) {
@@ -18,17 +18,8 @@ class Attack {
     }  
 
     remove() {
-        let sources = [
-            "assets/destroy_scissors.wav",
-            "assets/destroy_rock.wav",
-            "assets/destroy_paper.wav",
-            "assets/enemy_destroy_rock.wav",
-            "assets/enemy_destroy_scissors.wav",
-            "assets/enemy_destroy_paper.wav"
-        ];
-        let src = sources[Math.floor(Math.random() * sources.length)];
         let audio = new Audio();
-        audio.src = src;
+        audio.src = get_random_sound_sources();
         audio.playbackRate = 2;
         audio.play();
         this.to_remove = true;
@@ -43,23 +34,6 @@ class Attack {
     }
 
     draw(context) {
-       /*  let color;
-        switch (this.type) {
-            case "paper" :
-                color = "blue";
-                break;
-            case "scissors" :
-                color = "red";
-                break;
-            case "rock" :
-                color = "green";
-                break;
-            default :
-                color = "black"
-        }
-
-        context.fillStyle = color;
-        context.fillRect(this.position.x,this.position.y,this.width,this.height); */
         this.animated_image.draw(context);
     }
 
